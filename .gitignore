@@ -1,0 +1,116 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 项目特定文件
+# 配置文件包含敏感信息
+config.yaml
+# 如果有本地配置文件
+config.local.yaml
+config.dev.yaml
+
+# 运行时生成的文件
+*.log
+file_organizer.log
+
+# 知识库目录（运行时生成）
+knowledge_base/
+test_knowledge_base/
+
+# 待处理文件夹（运行时内容）
+inbox/*
+!inbox/README.md
+# 已处理文件夹
+processed/
+
+# 测试文件
+test_files/
+test_*.md
+test_*.txt
+test_*.docx
+test_*.pdf
+test_*.xlsx
+
+# 临时文件
+temp/
+tmp/
+*.tmp
+*.bak
+*.backup
+
+# 性能分析文件
+profile_stats.txt
+
+# API密钥和环境变量文件
+.env.local
+.env.*.local
+secrets.yaml
+
+# 文档处理临时文件
+~$*.doc*
+~$*.xls*
+.~lock.* 

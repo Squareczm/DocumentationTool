@@ -1,0 +1,110 @@
+# 智能文件整理助手配置文件示例
+# 复制此文件为 config.yaml 并填入您的配置
+
+# ============= LLM API 配置 =============
+llm:
+  # API提供商：支持 openai, anthropic
+  provider: "openai"
+  
+  # API密钥配置：请将下面的空字符串""替换为您的真实API密钥
+  # 获取密钥地址：
+  # - DeepSeek（推荐）: https://platform.deepseek.com/api_keys
+  # - OpenAI: https://platform.openai.com/api-keys
+  # - Anthropic: https://console.anthropic.com/
+  # 示例: api_key: "sk-1234567890abcdef..."
+  api_key: ""
+  
+  # API基础URL (默认配置为DeepSeek，也可改为其他兼容端点)
+  # DeepSeek: https://api.deepseek.com/v1
+  # OpenAI: https://api.openai.com/v1 (或留空使用默认)
+  base_url: "https://api.deepseek.com/v1"
+  
+  # 模型名称 (默认使用DeepSeek，性价比更高)
+  # DeepSeek: deepseek-chat, deepseek-coder
+  # OpenAI: gpt-3.5-turbo, gpt-4, gpt-4-turbo
+  # Anthropic: claude-3-haiku-20240307, claude-3-sonnet-20240229
+  model: "deepseek-chat"
+  
+  # API请求超时时间(秒)
+  timeout: 30
+
+# ============= 知识库配置 =============
+knowledge_base:
+  # 知识库根目录路径 (支持相对路径和绝对路径)
+  # 示例: "./my_knowledge_base" 或 "D:/Documents/KnowledgeBase"
+  root_path: "./knowledge_base"
+  
+  # 是否按年份归档
+  # true: 文件会放在 知识库/年份/主题/ 下
+  # false: 文件直接放在 知识库/主题/ 下
+  archive_by_year: true
+  
+  # 最大文件夹层级深度 (防止创建过深的目录结构)
+  max_folder_depth: 3
+
+# ============= 文件处理配置 =============
+file_processing:
+  # 支持的文件扩展名
+  supported_extensions: [".docx", ".xlsx", ".pdf", ".txt", ".md"]
+  
+  # 文件名最大长度 (包含扩展名)
+  max_filename_length: 200
+  
+  # 版本号格式
+  # "simple": v1.0, v1.1, v2.0 (推荐)
+  # "semantic": v1.0.0, v1.0.1, v1.1.0
+  version_format: "simple"
+  
+  # 日期格式 (Python strftime 格式)
+  # %Y%m%d: 20250529
+  # %Y-%m-%d: 2025-05-29
+  # %Y年%m月%d日: 2025年05月29日
+  date_format: "%Y%m%d"
+
+# ============= 日期提取配置 =============
+date_extraction:
+  # 日期提取优先级 (按顺序尝试)
+  # content_date: 从文档内容中提取
+  # creation_date: 文件创建时间
+  # modification_date: 文件修改时间
+  # current_date: 当前日期
+  priority: ["content_date", "creation_date", "modification_date", "current_date"]
+
+# ============= 默认行为配置 =============
+defaults:
+  # 是否自动创建文件夹 (不询问用户)
+  auto_create_folders: true
+  
+  # 默认初始版本号
+  initial_version: "v1.0"
+  
+  # 当AI提取主体失败时的默认主体名称
+  fallback_subject: "未分类文档"
+
+# ============= 输出配置 =============
+output:
+  # 是否显示详细信息
+  verbose: true
+  
+  # 是否显示彩色输出 (在支持的终端中)
+  colored_output: true
+  
+  # 日志文件路径 (设为空字符串则不记录日志文件)
+  log_file: "./file_organizer.log"
+
+# ============= 使用说明 =============
+# 1. 设置API密钥：
+#    方法一(推荐): 设置环境变量 SMARTFILEORG_LLM_API_KEY=你的密钥
+#    方法二: 在上面的 api_key 字段填入您的密钥
+#
+# 2. 默认配置说明：
+#    本配置文件默认使用 DeepSeek API (性价比高，适合中国用户)
+#    如需使用其他API，请修改 base_url 和 model 字段
+#
+# 3. 基本使用：
+#    python main.py                    # 交互式处理
+#    python main.py -y                 # 自动确认模式
+#    python main.py --watch            # 监控模式
+#
+# 4. 获取帮助：
+#    python main.py --help 
