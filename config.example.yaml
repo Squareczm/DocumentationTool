@@ -17,7 +17,7 @@ llm:
   # API基础URL (默认配置为DeepSeek，也可改为其他兼容端点)
   # DeepSeek: https://api.deepseek.com/v1
   # OpenAI: https://api.openai.com/v1 (或留空使用默认)
-  base_url: "https://api.deepseek.com/v1"
+  base_url: "https://api.deepseek.com"
   
   # 模型名称 (默认使用DeepSeek，性价比更高)
   # DeepSeek: deepseek-chat, deepseek-coder
