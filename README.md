@@ -68,15 +68,21 @@ llm:
 - 🔗 **OpenAI**：https://platform.openai.com/api-keys
 
 **配置方式：**
-# 方式1：编辑配置文件（推荐新手）
-# 用文本编辑器打开 config.yaml，完整配置如上所示
 
-# 方式2：仅设置环境变量（高级用户）
+**方式1：编辑配置文件（推荐新手）**
+```yaml
+# 用文本编辑器打开 config.yaml，完整配置如上所示
+```
+
+**方式2：仅设置环境变量（高级用户）**
+```bash
 # Windows: set SMARTFILEORG_LLM_API_KEY=你的API密钥
 # Linux/Mac: export SMARTFILEORG_LLM_API_KEY=你的API密钥
 # 注意：使用环境变量时，仍需在config.yaml中正确配置base_url和model
+```
 
-# 4. 环境检查
+**4. 环境检查**
+```bash
 python main.py --check
 ```
 
