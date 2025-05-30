@@ -15,7 +15,7 @@ llm:
   api_key: ""
   
   # API基础URL (默认配置为DeepSeek，也可改为其他兼容端点)
-  # DeepSeek: https://api.deepseek.com/v1
+  # DeepSeek: https://api.deepseek.com
   # OpenAI: https://api.openai.com/v1 (或留空使用默认)
   base_url: "https://api.deepseek.com"
   
@@ -37,10 +37,35 @@ knowledge_base:
   # 是否按年份归档
   # true: 文件会放在 知识库/年份/主题/ 下
   # false: 文件直接放在 知识库/主题/ 下
-  archive_by_year: true
+  archive_by_year: false
   
   # 最大文件夹层级深度 (防止创建过深的目录结构)
   max_folder_depth: 3
+
+# ============= 分类策略配置 =============
+classification:
+  # 启用智能分类系统
+  enabled: true
+  
+  # 语义匹配阈值 (0-1，越高越严格)
+  semantic_threshold: 0.02
+  
+  # 是否允许创建新文件夹
+  allow_new_folders: true
+  
+  # 强制使用现有文件夹
+  force_existing: false
+  
+  # 新文件夹创建策略
+  new_folder_strategy:
+    # 高置信度阈值，超过此值且无匹配时创建新文件夹
+    high_confidence_threshold: 0.8
+    
+    # 优先使用的目标模式
+    prefer_target_patterns: true
+    
+    # 回退文件夹列表
+    fallback_folders: ["文档", "其他", "未分类", "通用"]
 
 # ============= 文件处理配置 =============
 file_processing:
