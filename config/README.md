@@ -697,9 +697,6 @@ def migrate_v1_to_v2(old_config_path, new_config_path):
 
 - [主要文档](../README.md) - 系统概览和快速开始
 - [扩展指南](../SCALABILITY_GUIDE.md) - 深入的扩展开发指导  
-- [配置示例](config.example.yaml) - 完整的配置文件示例
-- [API文档](docs/api.md) - 开发者API参考
-- [最佳实践](docs/best_practices.md) - 更多实践经验
 
 ---
 
