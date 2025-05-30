@@ -1,0 +1,388 @@
+# ============= 配置元数据 =============
+metadata:
+  version: "2.0.0"
+  last_updated: "2025-05-30"
+  description: "智能文件夹模板配置 - 支持多种组织方式和模板继承"
+  schema_version: "2.0"
+
+# ============= 基础模板定义 =============
+base_templates:
+  # 简单平铺结构
+  flat:
+    description: "单层文件夹结构，适合文件数量较少的场景"
+    structure:
+      - "{category}"
+    max_depth: 1
+    
+  # 分类层级结构  
+  hierarchical:
+    description: "二级分类结构，适合大多数场景"
+    structure:
+      - "{category}"
+      - "{category}/{subcategory}"
+    max_depth: 2
+    
+  # 深度层级结构
+  deep:
+    description: "三级或更深分类结构，适合文件量大的专业场景"
+    structure:
+      - "{category}"
+      - "{category}/{subcategory}"
+      - "{category}/{subcategory}/{detailed_category}"
+    max_depth: 3
+
+# ============= 组织策略模板 =============
+organization_strategies:
+  
+  # 按时间组织
+  by_time:
+    description: "按时间维度组织文件"
+    patterns:
+      yearly: "{category}/{year}年"
+      quarterly: "{category}/{year}年/{quarter}季度"
+      monthly: "{category}/{year}年/{month}月"
+      daily: "{category}/{year}年/{month}月/{day}日"
+    variables:
+      year: "文件创建年份"
+      quarter: "季度(Q1-Q4)"
+      month: "月份(01-12)"
+      day: "日期(01-31)"
+    
+  # 按项目组织
+  by_project:
+    description: "按项目或任务组织文件"
+    patterns:
+      project_based: "{category}/项目_{project_name}"
+      phase_based: "{category}/项目_{project_name}/{phase}"
+      task_based: "{category}/项目_{project_name}/{phase}/任务_{task_id}"
+    variables:
+      project_name: "项目名称"
+      phase: "项目阶段"
+      task_id: "任务编号"
+      
+  # 按优先级组织
+  by_priority:
+    description: "按重要性和紧急程度组织文件"
+    patterns:
+      importance: "{category}/{importance_level}"
+      urgency: "{category}/{urgency_level}"
+      matrix: "{category}/{importance_level}_{urgency_level}"
+    variables:
+      importance_level: "重要程度(高中低)"
+      urgency_level: "紧急程度(急缓)"
+      
+  # 按状态组织
+  by_status:
+    description: "按处理状态组织文件"
+    patterns:
+      workflow: "{category}/{status}"
+      detailed: "{category}/{status}/{substatus}"
+    variables:
+      status: "处理状态(待处理/进行中/已完成)"
+      substatus: "详细状态"
+
+# ============= 具体分类模板 =============
+category_templates:
+  
+  # ============= 企业办公模板 =============
+  
+  技术开发:
+    base_template: "hierarchical"
+    organization: "by_project"
+    structure:
+      - "技术开发"
+      - "技术开发/项目文档"
+      - "技术开发/架构设计"
+      - "技术开发/开发规范"
+      - "技术开发/API文档"
+      - "技术开发/测试文档"
+      - "技术开发/部署文档"
+    time_based_variants:
+      - "技术开发/{year}年项目"
+      - "技术开发/归档/{year}年"
+    project_variants:
+      - "技术开发/项目_{project_name}"
+      - "技术开发/项目_{project_name}/需求分析"
+      - "技术开发/项目_{project_name}/技术方案"
+      - "技术开发/项目_{project_name}/代码实现"
+      - "技术开发/项目_{project_name}/测试验证"
+      
+  运维管理:
+    base_template: "hierarchical"
+    organization: "by_status"
+    structure:
+      - "运维管理"
+      - "运维管理/系统监控"
+      - "运维管理/部署配置"
+      - "运维管理/安全管理"
+      - "运维管理/故障处理"
+      - "运维管理/性能优化"
+    status_variants:
+      - "运维管理/待处理"
+      - "运维管理/处理中"
+      - "运维管理/已解决"
+      - "运维管理/归档"
+      
+  项目管理:
+    base_template: "deep"
+    organization: "by_project"
+    structure:
+      - "项目管理"
+      - "项目管理/项目规划"
+      - "项目管理/需求管理"
+      - "项目管理/进度跟踪"
+      - "项目管理/风险管理"
+      - "项目管理/质量管理"
+      - "项目管理/团队协作"
+    project_variants:
+      - "项目管理/项目_{project_name}"
+      - "项目管理/项目_{project_name}/立项阶段"
+      - "项目管理/项目_{project_name}/规划阶段"
+      - "项目管理/项目_{project_name}/执行阶段"
+      - "项目管理/项目_{project_name}/监控阶段"
+      - "项目管理/项目_{project_name}/收尾阶段"
+      
+  财务管理:
+    base_template: "hierarchical"
+    organization: "by_time"
+    structure:
+      - "财务管理"
+      - "财务管理/预算管理"
+      - "财务管理/费用报销"
+      - "财务管理/财务报表"
+      - "财务管理/投资理财"
+      - "财务管理/税务处理"
+    time_variants:
+      - "财务管理/{year}年"
+      - "财务管理/{year}年/{quarter}季度"
+      - "财务管理/{year}年/{month}月"
+      - "财务管理/历史归档/{year}年"
+
+  # ============= 个人生活模板 =============
+  
+  个人财务:
+    base_template: "hierarchical"
+    organization: "by_time"
+    structure:
+      - "个人财务"
+      - "个人财务/理财投资"
+      - "个人财务/记账管理"
+      - "个人财务/保险管理"
+      - "个人财务/税务文档"
+      - "个人财务/财务规划"
+    time_variants:
+      - "个人财务/{year}年"
+      - "个人财务/{year}年/{month}月"
+      - "个人财务/年度总结/{year}年"
+      
+  健康医疗:
+    base_template: "hierarchical"
+    organization: "by_time"
+    structure:
+      - "健康医疗"
+      - "健康医疗/体检报告"
+      - "健康医疗/医疗记录"
+      - "健康医疗/健身运动"
+      - "健康医疗/营养健康"
+      - "健康医疗/健康计划"
+    time_variants:
+      - "健康医疗/{year}年"
+      - "健康医疗/体检/{year}年"
+      - "健康医疗/运动记录/{year}年"
+      
+  旅行出行:
+    base_template: "hierarchical"
+    organization: "by_project"
+    structure:
+      - "旅行出行"
+      - "旅行出行/旅游攻略"
+      - "旅行出行/行程规划"
+      - "旅行出行/游记分享"
+      - "旅行出行/出行记录"
+    project_variants:
+      - "旅行出行/{destination}_旅行"
+      - "旅行出行/{destination}_旅行/行前准备"
+      - "旅行出行/{destination}_旅行/行程记录"
+      - "旅行出行/{destination}_旅行/游记总结"
+
+# ============= 模板继承规则 =============
+template_inheritance:
+  # 继承链：specific -> category -> base
+  resolution_order:
+    - "specific_template"  # 具体文件类型模板
+    - "category_template"  # 分类模板
+    - "base_template"      # 基础模板
+    
+  # 可继承的属性
+  inheritable_properties:
+    - "structure"
+    - "organization"
+    - "max_depth"
+    - "naming_rules"
+    - "metadata_fields"
+    
+  # 合并策略
+  merge_strategy:
+    structure: "extend"      # 扩展结构
+    organization: "override" # 覆盖组织方式
+    max_depth: "max"        # 取最大值
+    
+# ============= 动态模板生成 =============
+dynamic_templates:
+  # 自动生成规则
+  auto_generation:
+    enabled: true
+    
+    # 基于现有文件夹结构学习
+    learn_from_existing: true
+    min_folder_count: 3
+    
+    # 基于文件类型自动分类
+    file_type_based: true
+    common_extensions: [".pdf", ".docx", ".xlsx", ".pptx", ".md"]
+    
+  # 模板评分系统
+  scoring_system:
+    usage_frequency: 0.4    # 使用频率权重
+    folder_efficiency: 0.3  # 文件夹效率权重
+    user_preference: 0.3    # 用户偏好权重
+    
+  # 推荐系统
+  recommendation:
+    max_suggestions: 3
+    confidence_threshold: 0.7
+    enable_ml_suggestions: false
+
+# ============= 命名规范 =============
+naming_conventions:
+  # 文件夹命名规则
+  folder_naming:
+    pattern: "^[\\u4e00-\\u9fa5a-zA-Z0-9_\\-\\s]+$"  # 支持中英文、数字、下划线、连字符、空格
+    max_length: 50
+    reserved_names: ["CON", "PRN", "AUX", "NUL", "COM1-9", "LPT1-9"]
+    case_handling: "preserve"  # preserve, lower, upper, title
+    
+  # 特殊字符处理
+  character_handling:
+    replace_chars:
+      "/": "_"
+      "\\": "_"
+      ":": "："
+      "*": "×"
+      "?": "？"
+      "\"": """
+      "<": "《"
+      ">": "》"
+      "|": "｜"
+    
+  # 长度控制
+  length_control:
+    max_folder_name_length: 50
+    max_path_length: 260
+    truncate_strategy: "smart"  # smart, middle, end
+
+# ============= 验证规则 =============
+validation:
+  # 结构验证
+  structure_validation:
+    max_depth: 5
+    max_folders_per_level: 20
+    min_folders_per_category: 1
+    
+  # 命名验证
+  naming_validation:
+    check_duplicates: true
+    check_reserved_names: true
+    check_special_chars: true
+    check_length: true
+    
+  # 一致性验证
+  consistency_validation:
+    check_template_compliance: true
+    check_organization_consistency: true
+    warn_on_deviation: true
+
+# ============= 本地化配置 =============
+localization:
+  # 支持的语言
+  supported_languages: ["zh-CN", "en-US", "ja-JP"]
+  default_language: "zh-CN"
+  
+  # 语言特定模板
+  language_templates:
+    "zh-CN":
+      date_format: "YYYY年MM月DD日"
+      folder_separators: ["/", "\\"]
+      
+    "en-US":
+      date_format: "YYYY-MM-DD"
+      folder_separators: ["/", "\\"]
+      
+  # 翻译映射
+  translations:
+    folder_names:
+      "文档": ["Documents", "ドキュメント"]
+      "项目": ["Projects", "プロジェクト"]
+      "个人": ["Personal", "個人"]
+
+# ============= 性能优化 =============
+performance:
+  # 缓存配置
+  caching:
+    enable_template_cache: true
+    cache_size: 500
+    cache_ttl: 3600  # 1小时
+    
+  # 批量操作
+  batch_operations:
+    batch_size: 100
+    enable_parallel_processing: true
+    max_workers: 4
+    
+  # 索引优化
+  indexing:
+    enable_folder_index: true
+    index_update_frequency: "on_change"
+    rebuild_threshold: 1000
+
+# ============= 扩展接口 =============
+extensions:
+  # 插件系统
+  plugins:
+    enabled: true
+    plugin_directory: "config/plugins/"
+    auto_load: true
+    
+  # 自定义模板提供者
+  custom_providers:
+    enabled: true
+    provider_directory: "config/providers/"
+    
+  # 外部模板源
+  external_sources:
+    enabled: false
+    sources: []
+    sync_frequency: "weekly"
+
+# ============= 监控和统计 =============
+monitoring:
+  # 使用统计
+  usage_tracking:
+    enabled: true
+    track_folder_creation: true
+    track_template_usage: true
+    track_organization_patterns: true
+    
+  # 性能监控
+  performance_monitoring:
+    enabled: true
+    monitor_template_resolution_time: true
+    monitor_folder_creation_time: true
+    alert_threshold: 1000  # ms
+    
+  # 统计报告
+  reporting:
+    generate_usage_reports: true
+    report_frequency: "monthly"
+    report_format: ["json", "csv"]
+    report_location: "reports/templates/" 

@@ -1,0 +1,472 @@
+# ============= 配置元数据 =============
+metadata:
+  version: "2.0.0"
+  last_updated: "2025-05-30"
+  author: "Smart File Organizer"
+  description: "智能文件分类系统 - 分类规则配置"
+  schema_version: "2.0"
+  
+# ============= 配置验证规则 =============
+validation:
+  required_fields: ["keywords", "target_patterns", "priority"]
+  max_keywords_per_rule: 50
+  max_target_patterns: 10
+  priority_range: [1, 100]
+  keyword_min_length: 2
+  
+# ============= 全局配置 =============
+global_settings:
+  # 多语言支持
+  language_support: ["zh-CN", "en-US", "ja-JP"]
+  default_language: "zh-CN"
+  
+  # 关键词处理
+  keyword_processing:
+    case_sensitive: false
+    remove_stop_words: true
+    enable_stemming: true
+    enable_synonyms: true
+  
+  # 分类权重系统
+  scoring_system:
+    keyword_match_weight: 0.4
+    semantic_similarity_weight: 0.3
+    priority_weight: 0.2
+    file_type_weight: 0.1
+
+# ============= 分类规则定义 =============
+classification_rules:
+  
+  # ============= 企业办公类别 (15类) =============
+  
+  技术开发:
+    description: "软件开发、编程、AI技术等相关文档"
+    keywords:
+      # 中文关键词
+      - 技术 - 开发 - 编程 - 代码 - 算法 - 系统架构 - 软件工程
+      - AI - 人工智能 - 机器学习 - 深度学习 - 神经网络 - 自然语言处理
+      - 前端 - 后端 - 全栈 - 数据库 - API - 微服务 - 框架 - 库
+      - 测试 - 调试 - 优化 - 重构 - 版本控制 - Git - 文档
+      # 英文关键词
+      - tech - technology - development - programming - coding - algorithm
+      - architecture - software - engineering - AI - ML - DL - NLP
+      - frontend - backend - fullstack - database - API - microservice
+      - framework - library - testing - debugging - optimization - git
+    target_patterns:
+      - 技术方案 - AI研究 - 开发文档 - 技术开发 - 系统设计
+      - 代码审查 - 技术规范 - 架构设计
+    priority: 1
+    file_types: [".py", ".js", ".java", ".cpp", ".md", ".pdf", ".docx"]
+    
+  运维管理:
+    description: "系统运维、部署、监控等基础设施相关文档"
+    keywords:
+      - 运维 - 部署 - 监控 - 服务器 - 云服务 - 网络 - 安全 - 备份
+      - Docker - 容器 - Kubernetes - 虚拟化 - 负载均衡 - 高可用
+      - 日志 - 告警 - 性能 - 故障 - 运维 - 自动化 - CI/CD
+      - devops - deployment - monitoring - server - cloud - security
+      - docker - container - kubernetes - virtualization - automation
+    target_patterns:
+      - DevOps运维 - 容器化部署 - 运维管理 - 系统监控
+      - 安全管理 - 网络配置 - 服务器管理
+    priority: 2
+    
+  项目管理:
+    description: "项目计划、任务管理、进度跟踪等项目相关文档"
+    keywords:
+      - 项目 - 管理 - 计划 - 任务 - 进度 - 里程碑 - 需求 - 规划
+      - 范围 - 时间 - 成本 - 质量 - 风险 - 沟通 - 团队 - 资源
+      - 敏捷 - Scrum - 看板 - 瀑布 - PMBOK - 项目章程 - WBS
+      - project - management - planning - task - milestone - agile - scrum
+    target_patterns:
+      - 项目文档 - 工作计划 - 项目管理 - 需求分析
+      - 项目章程 - 风险管理 - 项目总结
+    priority: 3
+    
+  业务流程:
+    description: "业务规范、流程设计、标准制度等业务相关文档"
+    keywords:
+      - 业务 - 流程 - 规范 - 标准 - 制度 - 操作手册 - 工作流 - 流程图
+      - SOP - 标准作业程序 - 质量管理 - ISO - 合规 - 审计 - 内控
+      - business - process - workflow - standard - procedure - SOP
+    target_patterns:
+      - 业务文档 - 操作手册 - 流程规范 - 业务流程
+      - 标准制度 - 质量管理 - 合规文档
+    priority: 4
+    
+  人力资源:
+    description: "招聘、培训、绩效、员工管理等人力资源文档"
+    keywords:
+      - 招聘 - 培训 - 员工 - 绩效 - 考核 - 团队 - 人事 - 薪酬
+      - 入职 - 离职 - 晋升 - 调岗 - 假期 - 福利 - 文化 - 制度
+      - HR - recruitment - training - employee - performance - compensation
+    target_patterns:
+      - 人力资源 - 团队建设 - 员工培训 - 绩效考核
+      - 招聘管理 - 薪酬福利 - 员工手册
+    priority: 5
+    
+  财务管理:
+    description: "财务报告、预算管理、投资理财等财务相关文档"
+    keywords:
+      - 财务 - 预算 - 投资 - 税务 - 会计 - 报表 - 成本 - 收支
+      - 资产 - 负债 - 现金流 - 利润 - 审计 - 内控 - 风控
+      - finance - budget - investment - accounting - tax - audit
+    target_patterns:
+      - 财务报告 - 投资理财 - 预算管理 - 财务管理
+      - 税务文档 - 审计报告 - 成本分析
+    priority: 6
+    
+  会议沟通:
+    description: "会议记录、沟通文档、工作汇报等沟通相关文档"
+    keywords:
+      - 会议 - 纪要 - 讨论 - 汇报 - 沟通 - 交流 - 总结 - 决议
+      - 议程 - 决策 - 行动项 - 跟进 - 反馈 - 协调 - 同步
+      - meeting - discussion - communication - summary - report
+    target_patterns:
+      - 会议纪要 - 沟通记录 - 工作汇报 - 会议沟通
+      - 决策记录 - 讨论总结 - 协调文档
+    priority: 7
+    
+  法律合规:
+    description: "法律文档、合同协议、合规管理等法务相关文档"
+    keywords:
+      - 法律 - 合同 - 协议 - 律师 - 合规 - 条款 - 法规 - 诉讼
+      - 知识产权 - 专利 - 商标 - 版权 - 保密 - NDA - 授权
+      - legal - contract - agreement - compliance - law - patent
+    target_patterns:
+      - 法律文档 - 合同协议 - 合规管理 - 法律合规
+      - 知识产权 - 法律意见 - 合规检查
+    priority: 8
+    
+  产品设计:
+    description: "产品设计、用户体验、界面设计等产品相关文档"
+    keywords:
+      - 产品 - 设计 - UI - UX - 界面 - 用户体验 - 原型 - 创意
+      - 交互 - 视觉 - 品牌 - 图标 - 色彩 - 字体 - 布局 - 风格
+      - product - design - interface - prototype - creative - UX/UI
+    target_patterns:
+      - 产品设计 - 创意设计 - UI设计 - 用户体验
+      - 产品规划 - 设计规范 - 原型设计
+    priority: 9
+    
+  营销推广:
+    description: "市场营销、品牌推广、运营策略等营销相关文档"
+    keywords:
+      - 营销 - 推广 - 品牌 - 运营 - 市场 - 宣传 - 广告 - 活动
+      - 策略 - 计划 - 渠道 - 用户 - 增长 - 转化 - ROI - KPI
+      - marketing - promotion - brand - operation - advertising
+    target_patterns:
+      - 营销文档 - 品牌推广 - 市场运营 - 营销推广
+      - 活动策划 - 用户运营 - 增长策略
+    priority: 10
+    
+  数据分析:
+    description: "数据分析、商业智能、报表统计等数据相关文档"
+    keywords:
+      - 数据 - 分析 - 统计 - 报表 - BI - 商业智能 - 指标 - KPI
+      - 可视化 - 图表 - 趋势 - 洞察 - 预测 - 模型 - 算法
+      - data - analysis - statistics - BI - visualization - insights
+    target_patterns:
+      - 数据分析 - 商业智能 - 数据报表 - 统计分析
+      - 数据可视化 - 分析报告 - 数据洞察
+    priority: 11
+    
+  质量管理:
+    description: "质量控制、测试管理、质量保证等质量相关文档"
+    keywords:
+      - 质量 - 测试 - QA - QC - 缺陷 - Bug - 验收 - 标准
+      - 检查 - 审核 - 改进 - 流程 - 规范 - ISO - 认证
+      - quality - testing - QA - QC - defect - bug - standards
+    target_patterns:
+      - 质量管理 - 测试文档 - 质量标准 - QA文档
+      - 测试报告 - 质量审核 - 改进计划
+    priority: 12
+    
+  供应链管理:
+    description: "采购管理、供应商管理、物流配送等供应链文档"
+    keywords:
+      - 供应链 - 采购 - 供应商 - 物流 - 配送 - 仓储 - 库存
+      - 合同 - 订单 - 交付 - 成本 - 质量 - 风险 - 评估
+      - supply chain - procurement - supplier - logistics - inventory
+    target_patterns:
+      - 供应链管理 - 采购文档 - 供应商管理 - 物流配送
+      - 采购合同 - 供应商评估 - 库存管理
+    priority: 13
+    
+  客户服务:
+    description: "客户服务、售后支持、客户关系管理等客服相关文档"
+    keywords:
+      - 客户 - 服务 - 售后 - 支持 - CRM - 投诉 - 反馈 - 满意度
+      - 工单 - 问题 - 解决方案 - 知识库 - FAQ - 培训 - 流程
+      - customer - service - support - CRM - complaint - feedback
+    target_patterns:
+      - 客户服务 - 售后支持 - 客户管理 - CRM文档
+      - 服务流程 - 客户反馈 - 知识库
+    priority: 14
+    
+  学习成长:
+    description: "培训资料、学习笔记、知识分享等学习相关文档"
+    keywords:
+      - 学习 - 培训 - 读书笔记 - 心得 - 体会 - 成长 - 知识 - 分享
+      - 课程 - 教程 - 技能 - 认证 - 考试 - 总结 - 反思
+      - learning - training - notes - growth - knowledge - course
+    target_patterns:
+      - 个人成长 - 读书笔记 - 学习资料 - 学习成长
+      - 培训资料 - 知识分享 - 技能认证
+    priority: 15
+  
+  # ============= 个人生活类别 (12类) =============
+  
+  个人财务:
+    description: "个人理财、投资记录、消费管理等财务相关文档"
+    keywords:
+      - 理财 - 记账 - 投资 - 保险 - 消费 - 预算 - 个人财务 - 资产
+      - 股票 - 基金 - 债券 - 银行 - 信贷 - 贷款 - 储蓄 - 收支
+      - finance - investment - insurance - budget - asset - savings
+    target_patterns:
+      - 个人财务 - 理财投资 - 记账管理 - 投资理财
+      - 保险文档 - 消费记录 - 财务规划
+    priority: 20
+    
+  生活记录:
+    description: "日记、随笔、心情记录等生活记录文档"
+    keywords:
+      - 日记 - 随笔 - 心情 - 感悟 - 生活 - 点滴 - 记录 - 回忆
+      - 思考 - 反思 - 感想 - 体验 - 经历 - 故事 - 感受
+      - diary - life - mood - feeling - record - memory - experience
+    target_patterns:
+      - 生活记录 - 日记随笔 - 心情感悟 - 个人日记
+      - 生活感悟 - 回忆录 - 人生思考
+    priority: 21
+    
+  健康医疗:
+    description: "健康记录、医疗文档、健身运动等健康相关文档"
+    keywords:
+      - 健康 - 体检 - 医疗 - 健身 - 运动 - 体检报告 - 医院 - 诊断
+      - 药物 - 治疗 - 康复 - 营养 - 饮食 - 锻炼 - 瑜伽 - 跑步
+      - health - medical - fitness - exercise - hospital - nutrition
+    target_patterns:
+      - 健康医疗 - 体检报告 - 健身运动 - 医疗记录
+      - 营养健康 - 运动记录 - 健康管理
+    priority: 22
+    
+  旅行出行:
+    description: "旅游攻略、出行记录、旅行计划等旅行相关文档"
+    keywords:
+      - 旅行 - 攻略 - 游记 - 出行 - 旅游 - 签证 - 机票 - 酒店
+      - 景点 - 路线 - 计划 - 预算 - 行程 - 美食 - 购物 - 文化
+      - travel - trip - tourism - visa - flight - hotel - itinerary
+    target_patterns:
+      - 旅行出行 - 旅游攻略 - 游记分享 - 出行计划
+      - 旅行规划 - 景点介绍 - 旅游总结
+    priority: 23
+    
+  兴趣爱好:
+    description: "个人爱好、收藏、娱乐活动等兴趣相关文档"
+    keywords:
+      - 爱好 - 收藏 - 音乐 - 摄影 - 绘画 - 游戏 - 娱乐 - 手工
+      - 电影 - 书籍 - 运动 - 户外 - 文艺 - 创作 - 技能 - 才艺
+      - hobby - collection - music - photography - painting - game
+    target_patterns:
+      - 兴趣爱好 - 收藏展示 - 创作作品 - 娱乐休闲
+      - 个人创作 - 爱好分享 - 技能学习
+    priority: 24
+    
+  家庭生活:
+    description: "家庭事务、育儿教育、家居装修等家庭相关文档"
+    keywords:
+      - 家庭 - 育儿 - 装修 - 节日 - 亲子 - 家居 - 生活用品 - 家务
+      - 教育 - 成长 - 陪伴 - 亲情 - 家庭活动 - 家庭理财 - 居家
+      - family - parenting - decoration - holiday - home - education
+    target_patterns:
+      - 家庭生活 - 育儿教育 - 家居装修 - 节日纪念
+      - 亲子活动 - 家庭计划 - 居家生活
+    priority: 25
+    
+  求职职业:
+    description: "求职简历、职业规划、面试记录等职业相关文档"
+    keywords:
+      - 求职 - 简历 - 面试 - 职业规划 - 工作 - 职场 - 招聘 - 应聘
+      - 职位 - 薪资 - 发展 - 技能 - 经验 - 证书 - 推荐信
+      - job - resume - interview - career - workplace - salary
+    target_patterns:
+      - 求职职业 - 简历面试 - 职业规划 - 职场发展
+      - 求职记录 - 面试准备 - 职业发展
+    priority: 26
+    
+  教育培训:
+    description: "教育课程、培训资料、考试认证等教育相关文档"
+    keywords:
+      - 教育 - 课程 - 考试 - 学历 - 证书 - 培训 - 学习资料 - 学校
+      - 专业 - 技能 - 认证 - 资格 - 学位 - 毕业 - 入学 - 申请
+      - education - course - exam - certificate - study - degree
+    target_patterns:
+      - 教育培训 - 考试认证 - 学习课程 - 培训资料
+      - 学历教育 - 技能培训 - 认证考试
+    priority: 27
+    
+  创作写作:
+    description: "创意写作、文学创作、博客文章等创作相关文档"
+    keywords:
+      - 创作 - 写作 - 博客 - 小说 - 文章 - 作品 - 创意 - 文学
+      - 散文 - 诗歌 - 剧本 - 评论 - 随笔 - 灵感 - 素材 - 发表
+      - writing - blog - novel - article - creative - literature
+    target_patterns:
+      - 创作写作 - 文学作品 - 博客文章 - 创意写作
+      - 写作素材 - 作品集 - 创作心得
+    priority: 28
+    
+  社交网络:
+    description: "社交媒体、网络互动、在线社区等社交相关文档"
+    keywords:
+      - 社交 - 网络 - 媒体 - 朋友圈 - 微博 - 社区 - 论坛 - 群组
+      - 分享 - 互动 - 点赞 - 评论 - 转发 - 关注 - 粉丝 - 直播
+      - social - network - media - community - forum - share
+    target_patterns:
+      - 社交网络 - 网络互动 - 社交媒体 - 在线社区
+      - 社交记录 - 网络分享 - 社区参与
+    priority: 29
+    
+  数字生活:
+    description: "数字化工具、在线服务、数字资产等数字生活文档"
+    keywords:
+      - 数字 - 在线 - 云服务 - 账号 - 密码 - 订阅 - 应用 - 软件
+      - 数据 - 备份 - 同步 - 隐私 - 安全 - 数字资产 - 虚拟 - 网络
+      - digital - online - cloud - account - password - app - data
+    target_patterns:
+      - 数字生活 - 在线服务 - 数字资产 - 云服务管理
+      - 账号管理 - 数字工具 - 网络服务
+    priority: 30
+    
+  环保可持续:
+    description: "环保行动、可持续生活、绿色生活等环保相关文档"
+    keywords:
+      - 环保 - 可持续 - 绿色 - 低碳 - 节能 - 减排 - 回收 - 循环
+      - 生态 - 自然 - 环境 - 气候 - 资源 - 节约 - 保护 - 责任
+      - environmental - sustainable - green - eco - climate - recycle
+    target_patterns:
+      - 环保可持续 - 绿色生活 - 环保行动 - 可持续发展
+      - 节能减排 - 环保计划 - 生态保护
+    priority: 31
+
+# ============= 回退文件夹配置 =============
+fallback_folders:
+  primary: ["文档", "其他", "未分类"]
+  secondary: ["documents", "others", "miscellaneous"]
+  emergency: ["临时文件", "待分类", "temp"]
+
+# ============= 匹配策略配置 =============
+strategy:
+  # 语义匹配阈值 (0-1，越高越严格)
+  semantic_threshold: 0.02
+  
+  # 是否允许创建新文件夹
+  allow_new_folders: true
+  
+  # 强制使用现有文件夹
+  force_existing: false
+  
+  # 关键词匹配权重
+  keyword_weight: 0.7
+  
+  # 优先级权重
+  priority_weight: 0.3
+  
+  # 最小匹配分数
+  min_match_score: 0.1
+  
+  # 新文件夹创建策略
+  new_folder_strategy:
+    # 创建新文件夹的最小匹配分数阈值
+    min_create_threshold: 0.15
+    
+    # 是否优先使用classification规则中的target_patterns
+    prefer_target_patterns: true
+    
+    # 当没有现有匹配且分类置信度高时，是否创建新文件夹
+    create_on_high_confidence: true
+    
+    # 高置信度阈值
+    high_confidence_threshold: 0.6
+    
+  # 多重匹配处理
+  multi_match_strategy:
+    # 当多个分类得分相近时的处理方式
+    tie_breaking: "priority"  # priority, confidence, alphabetical
+    
+    # 相近得分的阈值
+    tie_threshold: 0.05
+    
+    # 是否启用二次确认
+    enable_confirmation: true
+
+# ============= 高级配置 =============
+advanced:
+  # 是否启用中英文混合匹配
+  enable_mixed_language: true
+  
+  # 是否启用模糊匹配
+  enable_fuzzy_matching: true
+  
+  # 模糊匹配相似度阈值
+  fuzzy_threshold: 0.8
+  
+  # 最大建议文件夹数量
+  max_suggestions: 3
+  
+  # 是否记录匹配详情
+  log_matching_details: true
+  
+  # 性能优化
+  performance:
+    # 关键词索引缓存
+    enable_keyword_cache: true
+    cache_size: 1000
+    
+    # 并发处理
+    enable_parallel_processing: true
+    max_workers: 4
+    
+    # 批量处理优化
+    batch_size: 50
+  
+  # 自学习功能
+  machine_learning:
+    # 是否启用自学习
+    enable_learning: false
+    
+    # 学习率
+    learning_rate: 0.01
+    
+    # 最小样本数
+    min_samples: 100
+    
+    # 自动更新规则
+    auto_update_rules: false
+
+# ============= 扩展配置 =============
+extensions:
+  # 行业特定扩展
+  industry_extensions:
+    medical: "config/industries/medical_rules.yaml"
+    education: "config/industries/education_rules.yaml"
+    legal: "config/industries/legal_rules.yaml"
+    finance: "config/industries/finance_rules.yaml"
+  
+  # 自定义扩展目录
+  custom_extensions_dir: "config/custom/"
+  
+  # 扩展加载顺序
+  load_order: ["industry", "custom", "user"]
+
+# ============= 迁移和备份 =============
+migration:
+  # 从旧版本迁移
+  from_version_1: "scripts/migrate_from_v1.py"
+  
+  # 备份策略
+  backup:
+    enabled: true
+    frequency: "daily"
+    retention: 30
+    location: "backups/classification_rules/" 
