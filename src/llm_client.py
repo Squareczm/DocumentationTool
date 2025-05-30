@@ -33,15 +33,31 @@ class LLMClient:
         
         # API密钥获取优先级：config.yaml > 环境变量
         api_key = self.config.get('api_key')
-        if not api_key:
-            api_key = os.getenv('SMARTFILEORG_LLM_API_KEY')
         
-        if not api_key:
-            self.logger.warning("未找到API密钥，请在config.yaml中配置api_key或设置环境变量SMARTFILEORG_LLM_API_KEY")
+        # 改进API密钥检查逻辑
+        if not api_key or api_key.strip() == "":
+            self.logger.info("配置文件中未设置API密钥，尝试从环境变量获取")
+            api_key = os.getenv('SMARTFILEORG_LLM_API_KEY')
+            if api_key:
+                self.logger.info("从环境变量成功获取API密钥")
+            else:
+                self.logger.warning("环境变量中也未找到API密钥")
+        else:
+            self.logger.info("从配置文件获取API密钥")
+        
+        if not api_key or api_key.strip() == "":
+            self.logger.error("API密钥未配置或为空，LLM功能将被禁用")
             self.enabled = False
         else:
-            self.config['api_key'] = api_key
+            self.config['api_key'] = api_key.strip()
             self.logger.info(f"LLM客户端已启用，使用提供商: {self.config.get('provider', 'openai')}")
+            self.logger.info(f"API密钥长度: {len(api_key.strip())} 字符")
+            self.logger.info(f"API密钥前缀: {api_key[:10]}...")
+            self.logger.info(f"Base URL: {self.config.get('base_url', 'default')}")
+            self.logger.info(f"Model: {self.config.get('model', 'default')}")
+            
+            # 额外的调试信息
+            self.logger.info(f"LLM客户端enabled状态: {self.enabled}")
     
     def _load_classification_rules(self) -> Dict[str, Any]:
         """加载分类规则配置"""
