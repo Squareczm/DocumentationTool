@@ -216,10 +216,14 @@ class LLMClient:
             # 第二步：使用配置化语义分析匹配
             semantic_match = self._find_semantic_folder_match(subject, combined_folders)
             if semantic_match:
-                self.logger.info(f"找到语义匹配，返回: {semantic_match}")
+                # 检查是否是二级文件夹路径
+                is_secondary_path = '/' in semantic_match
+                create_new_flag = is_secondary_path or semantic_match not in combined_folders
+                
+                self.logger.info(f"找到语义匹配，返回: {semantic_match}, 创建新文件夹: {create_new_flag}")
                 return {
                     'suggested_path': semantic_match,
-                    'create_new': False,
+                    'create_new': create_new_flag,
                     'reasoning': f'通过语义分析找到匹配的文件夹: {semantic_match}'
                 }
             
@@ -795,57 +799,106 @@ class LLMClient:
         return None
     
     def _find_semantic_folder_match(self, subject: str, folders: List[str]) -> Optional[str]:
-        """基于语义相似性的文件夹匹配 - 使用配置化规则"""
-        # 获取分类规则和策略配置
-        rules = self.classification_rules.get('classification_rules', {})
-        strategy = self.classification_rules.get('strategy', {})
-        threshold = strategy.get('semantic_threshold', 0.3)
-        
-        # 计算每个语义类别的匹配分数
-        category_scores = {}
-        
-        for category, info in rules.items():
-            keywords = info.get('keywords', [])
-            priority = info.get('priority', 10)
-            
-            # 关键词匹配计分
-            matched_keywords = 0
-            for keyword in keywords:
-                if keyword.lower() in subject.lower():
-                    matched_keywords += 1
-            
-            # 计算归一化分数（不考虑优先级，优先级仅用于最终选择）
-            if matched_keywords > 0:
-                normalized_score = matched_keywords / len(keywords)
-                category_scores[category] = {
-                    'score': normalized_score,
-                    'priority': priority,
-                    'matched_keywords': matched_keywords
-                }
-        
-        # 过滤低于阈值的分数
-        valid_categories = {k: v for k, v in category_scores.items() if v['score'] >= threshold}
-        
-        if not valid_categories:
-            self.logger.info(f"没有类别达到阈值 {threshold}")
+        """基于语义相似性的文件夹匹配 - 使用配置化规则，支持二级文件夹"""
+        if not self.classification_rules:
             return None
         
-        # 在有效类别中，优先选择分数最高的，分数相同时选择优先级最高的（数字最小）
-        best_category = max(valid_categories.items(), 
-                          key=lambda x: (x[1]['score'], -x[1]['priority']))
+        rules = self.classification_rules.get('classification_rules', {})
+        if not rules:
+            return None
         
-        best_category_name = best_category[0]
-        best_info = best_category[1]
-        best_patterns = rules[best_category_name].get('target_patterns', [])
+        subject_lower = subject.lower()
+        strategy = self.classification_rules.get('strategy', {})
+        threshold = strategy.get('semantic_threshold', 0.05)
+        
+        category_scores = {}
+        
+        # 计算每个类别的匹配分数
+        for category_name, category_info in rules.items():
+            keywords = category_info.get('keywords', [])
+            priority = category_info.get('priority', 99)
+            
+            # 计算关键词匹配分数
+            matched_keywords = 0
+            for keyword in keywords:
+                if isinstance(keyword, str) and keyword.lower() in subject_lower:
+                    matched_keywords += 1
+            
+            if matched_keywords > 0:
+                # 基础分数：关键词匹配数 / 总关键词数
+                base_score = matched_keywords / len(keywords) if keywords else 0
+                # 优先级调整：优先级越高（数值越小），加分越多
+                priority_boost = max(0, (100 - priority) / 100 * 0.1)
+                # 最终分数
+                final_score = base_score + priority_boost
+                
+                if final_score >= threshold:
+                    category_scores[category_name] = {
+                        'score': final_score,
+                        'priority': priority,
+                        'info': category_info
+                    }
+        
+        if not category_scores:
+            return None
+        
+        # 选择最佳匹配类别
+        best_category_name, best_info = max(
+            category_scores.items(),
+            key=lambda x: (x[1]['score'], -x[1]['priority'])
+        )
+        
+        category_config = best_info['info']
+        target_patterns = category_config.get('target_patterns', [])
         
         self.logger.info(f"最佳语义类别: {best_category_name}, 分数: {best_info['score']:.3f}, 优先级: {best_info['priority']}")
         
-        # 在现有文件夹中寻找匹配该语义类别的文件夹
-        for pattern in best_patterns:
+        # 第一步：在现有文件夹中寻找匹配的一级文件夹
+        primary_folder = None
+        for pattern in target_patterns:
             for folder_path in folders:
                 if pattern in folder_path:
-                    self.logger.info(f"语义匹配成功 - 类别: {best_category_name}, 模式: {pattern}, 文件夹: {folder_path}")
-                    return folder_path
+                    primary_folder = folder_path
+                    break
+            if primary_folder:
+                break
+        
+        # 如果找到了一级文件夹，尝试智能匹配二级文件夹
+        if primary_folder:
+            subfolder_name = self._find_best_subfolder(subject_lower, category_config)
+            
+            if subfolder_name:
+                # 构建二级文件夹路径
+                secondary_path = f"{primary_folder}/{subfolder_name}"
+                
+                # 检查二级文件夹是否已存在于folders列表中
+                secondary_exists = any(folder == secondary_path for folder in folders)
+                
+                if secondary_exists:
+                    # 如果二级文件夹已存在，返回它
+                    self.logger.info(f"二级文件夹已存在 - 类别: {best_category_name}, 路径: {secondary_path}")
+                    return secondary_path
+                else:
+                    # 如果二级文件夹不存在，返回新的二级路径用于创建
+                    self.logger.info(f"创建二级文件夹 - 类别: {best_category_name}, 主文件夹: {primary_folder}, 子文件夹: {subfolder_name}")
+                    return secondary_path
+            
+            # 如果没有合适的二级分类，返回一级文件夹
+            self.logger.info(f"语义匹配成功 - 类别: {best_category_name}, 模式: {primary_folder}, 文件夹: {primary_folder}")
+            return primary_folder
+        
+        # 如果没有找到现有的一级文件夹，尝试创建新的（可能包含二级）
+        if target_patterns:
+            primary_folder_name = target_patterns[0]  # 使用第一个模式作为主文件夹
+            subfolder_name = self._find_best_subfolder(subject_lower, category_config)
+            
+            if subfolder_name:
+                new_path = f"{primary_folder_name}/{subfolder_name}"
+                self.logger.info(f"创建新的二级文件夹结构 - 类别: {best_category_name}, 路径: {new_path}")
+                return new_path
+            else:
+                self.logger.info(f"创建新的一级文件夹 - 类别: {best_category_name}, 路径: {primary_folder_name}")
+                return primary_folder_name
         
         return None
     
@@ -975,110 +1028,55 @@ class LLMClient:
     def _find_semantic_category_match(self, subject: str) -> Optional[str]:
         """基于语义相似性找到分类类别（不依赖现有文件夹）"""
         if not self.classification_rules:
+            self.logger.warning("分类规则未加载")
             return None
         
-        try:
-            # 读取配置文件获取最新规则
-            import yaml
-            from pathlib import Path
-            
-            rules_file = Path("config/classification_rules.yaml")
-            if rules_file.exists():
-                with open(rules_file, 'r', encoding='utf-8') as f:
-                    config = yaml.safe_load(f)
-                rules = config.get('classification_rules', {})
-            else:
-                rules = self.classification_rules
-                
-        except Exception as e:
-            self.logger.warning(f"读取分类规则失败，使用内存中的规则: {e}")
-            rules = self.classification_rules
+        rules = self.classification_rules.get('classification_rules', {})
+        if not rules:
+            self.logger.warning("分类规则为空")
+            return None
         
         subject_lower = subject.lower()
-        threshold = 0.02  # 降低阈值
-        
-        # 计算每个类别的匹配分数
         category_scores = {}
         
+        # 计算每个分类的匹配分数
         for category_name, category_info in rules.items():
             keywords = category_info.get('keywords', [])
             priority = category_info.get('priority', 99)
             
-            # 计算关键词匹配分数 - 进一步改进算法
-            matched_keywords = 0
-            total_keyword_score = 0
-            high_confidence_matches = 0
-            partial_matches = 0
-            
+            # 计算关键词匹配分数
+            keyword_matches = 0
             for keyword in keywords:
-                keyword_lower = keyword.lower()
-                match_score = 0
-                
-                # 1. 完全匹配检查
-                if keyword_lower == subject_lower:
-                    match_score = 1.0
-                    high_confidence_matches += 1
-                # 2. 完整包含匹配
-                elif keyword_lower in subject_lower:
-                    match_score = 0.9 if len(keyword_lower) >= 4 else 0.7
-                    high_confidence_matches += 1
-                # 3. 反向包含匹配（主体包含在关键词中）
-                elif subject_lower in keyword_lower:
-                    match_score = 0.8
-                    high_confidence_matches += 1
-                # 4. 部分单词匹配
-                else:
-                    # 检查关键词的单词是否在主体中
-                    keyword_words = set(keyword_lower.split())
-                    subject_words = set(subject_lower.split())
-                    
-                    if keyword_words & subject_words:  # 有交集
-                        overlap_ratio = len(keyword_words & subject_words) / len(keyword_words)
-                        if overlap_ratio >= 0.6:  # 60%以上单词匹配
-                            match_score = 0.6 * overlap_ratio
-                            partial_matches += 1
-                        elif overlap_ratio >= 0.3:  # 30%以上单词匹配
-                            match_score = 0.4 * overlap_ratio
-                            partial_matches += 1
-                
-                if match_score > 0:
-                    matched_keywords += 1
-                    total_keyword_score += match_score
+                if isinstance(keyword, str) and keyword.lower() in subject_lower:
+                    keyword_matches += 1
             
-            # 归一化分数：基于匹配的关键词数量和质量
-            if matched_keywords > 0:
-                # 基础分数：平均匹配分数
-                base_score = total_keyword_score / len(keywords)
+            if keyword_matches > 0:
+                # 基础分数：关键词匹配数 / 总关键词数
+                base_score = keyword_matches / len(keywords) if keywords else 0
                 
-                # 奖励机制
-                coverage_bonus = min(matched_keywords / len(keywords), 0.4)  # 关键词覆盖奖励
-                confidence_bonus = min(high_confidence_matches * 0.15, 0.3)  # 高置信度奖励
-                partial_bonus = min(partial_matches * 0.05, 0.1)  # 部分匹配奖励
+                # 优先级调整：优先级越高（数值越小），加分越多
+                priority_boost = max(0, (100 - priority) / 100 * 0.1)
                 
-                # 特殊类别优先级奖励
-                priority_bonus = 0
-                if category_name in ['技术开发', '个人财务', '学习成长']:
-                    priority_bonus = 0.1
-                elif category_name in ['项目管理', '运维管理']:
-                    priority_bonus = 0.05
+                # 最终分数
+                final_score = base_score + priority_boost
                 
-                # 长关键词奖励（更具体的关键词给予奖励）
-                long_keyword_bonus = 0
-                for keyword in keywords:
-                    if len(keyword) >= 6 and keyword.lower() in subject_lower:
-                        long_keyword_bonus += 0.05
-                long_keyword_bonus = min(long_keyword_bonus, 0.2)
+                category_scores[category_name] = {
+                    'score': final_score,
+                    'keyword_matches': keyword_matches,
+                    'priority': priority
+                }
                 
-                final_score = base_score + coverage_bonus + confidence_bonus + partial_bonus + priority_bonus + long_keyword_bonus
-                
-                if final_score >= threshold:
-                    category_scores[category_name] = {
-                        'score': final_score,
-                        'priority': priority,
-                        'matched_keywords': matched_keywords,
-                        'high_confidence': high_confidence_matches,
-                        'partial_matches': partial_matches
-                    }
+                self.logger.info(f"分类匹配 - {category_name}: 分数={final_score:.3f}, 关键词匹配={keyword_matches}, 优先级={priority}")
+        
+        # 检查是否有足够高的匹配分数
+        strategy = self.classification_rules.get('strategy', {})
+        min_threshold = strategy.get('semantic_threshold', 0.05)
+        
+        valid_categories = {k: v for k, v in category_scores.items() if v['score'] >= min_threshold}
+        
+        if not valid_categories:
+            self.logger.info(f"没有类别达到阈值 {min_threshold}")
+            return None
         
         if not category_scores:
             return None
@@ -1089,12 +1087,62 @@ class LLMClient:
             key=lambda x: (x[1]['score'], -x[1]['priority'])
         )
         
-        # 获取该类别的第一个目标模式作为文件夹名
-        target_patterns = rules[best_category_name].get('target_patterns', [])
-        if target_patterns:
-            folder_name = target_patterns[0]  # 使用第一个模式
-            
-            self.logger.info(f"语义类别匹配 - 类别: {best_category_name}, 分数: {best_info['score']:.3f}, 优先级: {best_info['priority']}, 建议文件夹: {folder_name}")
-            return folder_name
+        # 获取该类别的配置信息
+        category_config = rules[best_category_name]
+        target_patterns = category_config.get('target_patterns', [])
         
+        if not target_patterns:
+            return None
+        
+        # 尝试智能匹配二级文件夹
+        subfolder_name = self._find_best_subfolder(subject_lower, category_config)
+        
+        # 构建最终路径
+        primary_folder = target_patterns[0]  # 使用第一个模式作为主文件夹
+        
+        if subfolder_name:
+            final_path = f"{primary_folder}/{subfolder_name}"
+            self.logger.info(f"二级文件夹匹配 - 主分类: {best_category_name}, 主文件夹: {primary_folder}, 子文件夹: {subfolder_name}")
+        else:
+            final_path = primary_folder
+            self.logger.info(f"一级文件夹匹配 - 主分类: {best_category_name}, 文件夹: {primary_folder}")
+        
+        return final_path
+    
+    def _find_best_subfolder(self, subject_lower: str, category_config: dict) -> Optional[str]:
+        """根据文档内容智能匹配最合适的二级文件夹"""
+        subfolders = category_config.get('subfolders', {})
+        
+        if not subfolders:
+            return None
+        
+        best_subfolder = None
+        best_score = 0
+        
+        # 计算每个子文件夹的匹配分数
+        for subfolder_name, subfolder_config in subfolders.items():
+            keywords = subfolder_config.get('keywords', [])
+            
+            # 计算关键词匹配分数
+            matches = 0
+            for keyword in keywords:
+                if isinstance(keyword, str) and keyword.lower() in subject_lower:
+                    matches += 1
+            
+            if matches > 0:
+                score = matches / len(keywords) if keywords else 0
+                
+                if score > best_score:
+                    best_score = score
+                    best_subfolder = subfolder_name
+                    
+                self.logger.info(f"子文件夹匹配检查 - {subfolder_name}: 分数={score:.3f}, 匹配数={matches}")
+        
+        # 只有当匹配分数足够高时才返回子文件夹
+        min_subfolder_threshold = 0.1  # 至少10%的关键词匹配
+        if best_score >= min_subfolder_threshold:
+            self.logger.info(f"选中子文件夹: {best_subfolder} (分数: {best_score:.3f})")
+            return best_subfolder
+        
+        self.logger.info(f"子文件夹匹配分数过低 (最高: {best_score:.3f}), 使用一级文件夹")
         return None 
