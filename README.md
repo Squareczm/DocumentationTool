@@ -106,28 +106,45 @@
 - ✅ 网络连接（用于API调用）
 - ✅ LLM API密钥（OpenAI、DeepSeek等）
 
-### 安装配置
+### 🛠️ 安装配置
 
+**第1步：克隆项目**
 ```bash
-# 1. 克隆项目
 git clone https://github.com/Squareczm/DocumentationToolUpdated
 cd DocumentationToolUpdated
+```
 
-# 2. 安装依赖
+**第2步：安装依赖**
+```bash
 pip install -r requirements.txt
+```
 
-# 3. 配置API密钥
+**第3步：复制配置文件**
+```bash
 # Windows用户：
 copy config.example.yaml config.yaml
 # Linux/Mac用户：
 # cp config.example.yaml config.yaml
 ```
 
-**推荐完整配置（以DeepSeek为例）：**
+**第4步：配置API密钥（选择一种方式）**
+
+**方式一：环境变量配置（推荐）**
+
+```bash
+# Windows PowerShell
+$env:SMARTFILEORG_LLM_API_KEY = "sk-1234567890abcdef..."
+
+# Windows CMD
+set SMARTFILEORG_LLM_API_KEY=sk-1234567890abcdef...
+```
+
+**方式二：配置文件配置**
+编辑 `config.yaml` 文件，将第14行的API密钥替换为您的真实密钥：
 ```yaml
 llm:
   provider: "openai"
-  api_key: "sk-1234567890abcdef..."  # 请替换为您的真实API密钥
+  api_key: "sk-1234567890abcdef..."  # 替换为您的真实API密钥
   base_url: "https://api.deepseek.com/v1"
   model: "deepseek-chat"
   timeout: 30
@@ -136,6 +153,169 @@ llm:
 **获取API密钥：**
 - 🔗 **DeepSeek（推荐）**：https://platform.deepseek.com/api_keys
 - 🔗 **OpenAI**：https://platform.openai.com/api-keys
+
+**方式三：通过PowerShell**
+```powershell
+# 设置当前会话的环境变量
+$env:SMARTFILEORG_LLM_API_KEY = "sk-1234567890abcdef..."
+
+# 永久设置环境变量（推荐）
+[Environment]::SetEnvironmentVariable("SMARTFILEORG_LLM_API_KEY", "sk-1234567890abcdef...", "User")
+```
+
+**方式三：通过命令提示符(CMD)**
+```cmd
+# 设置当前会话的环境变量
+set SMARTFILEORG_LLM_API_KEY=sk-1234567890abcdef...
+
+# 永久设置环境变量（推荐）
+setx SMARTFILEORG_LLM_API_KEY "sk-1234567890abcdef..."
+```
+
+**验证环境变量设置：**
+```powershell
+# PowerShell中验证
+echo $env:SMARTFILEORG_LLM_API_KEY
+
+# CMD中验证
+echo %SMARTFILEORG_LLM_API_KEY%
+```
+
+**第5步：验证配置**
+```bash
+# 验证配置并自动创建必要文件夹
+python main.py --check
+```
+
+**成功输出示例：**
+```
+🔧 检查运行环境...
+✅ Python版本: 3.13.3
+✅ 所有依赖包已安装
+✅ 配置文件存在  
+✅ API密钥已配置 ← 重要！
+✅ 文件夹结构正常 ← 自动创建inbox等文件夹
+
+🎉 环境检查完成，可以开始使用！
+```
+
+**第6步：开始使用**
+1. 将待处理文件放入自动生成的 `inbox/` 文件夹
+2. 运行：`python main.py` 或 `python main.py -y`
+3. 查看 `knowledge_base/` 文件夹中的整理结果
+
+### 🔧 详细配置说明
+
+#### Windows环境变量配置
+
+**方法一：通过系统设置**
+1. 右键点击"此电脑" → "属性"
+2. 点击"高级系统设置" → "环境变量"
+3. 在"用户变量"中点击"新建"：
+   - 变量名：`SMARTFILEORG_LLM_API_KEY`
+   - 变量值：您的API密钥（如：`sk-1234567890abcdef...`）
+4. 确定保存，重启PowerShell或命令提示符
+
+**方法二：通过PowerShell**
+```powershell
+# 设置当前会话的环境变量
+$env:SMARTFILEORG_LLM_API_KEY = "sk-1234567890abcdef..."
+
+# 永久设置环境变量（推荐）
+[Environment]::SetEnvironmentVariable("SMARTFILEORG_LLM_API_KEY", "sk-1234567890abcdef...", "User")
+```
+
+**方法三：通过命令提示符(CMD)**
+```cmd
+# 设置当前会话的环境变量
+set SMARTFILEORG_LLM_API_KEY=sk-1234567890abcdef...
+
+# 永久设置环境变量（推荐）
+setx SMARTFILEORG_LLM_API_KEY "sk-1234567890abcdef..."
+```
+
+**验证环境变量设置：**
+```powershell
+# PowerShell中验证
+echo $env:SMARTFILEORG_LLM_API_KEY
+
+# CMD中验证
+echo %SMARTFILEORG_LLM_API_KEY%
+```
+
+### ✅ 配置验证步骤
+
+**设置完环境变量后，必须运行验证命令：**
+```bash
+# 验证配置并自动创建必要文件夹
+python main.py --check
+```
+
+**成功的验证输出应该包含：**
+```
+🔧 检查运行环境...
+✅ Python版本: 3.13.3 (...)
+✅ yaml
+✅ docx
+✅ openpyxl
+✅ PyPDF2
+✅ requests
+✅ click
+✅ colorama
+✅ watchdog
+✅ 配置文件存在
+✅ API密钥已配置（环境变量）  ← 重要：确认API密钥配置成功
+✅ 文件夹结构正常               ← 重要：自动创建inbox等文件夹
+
+🎉 环境检查完成，可以开始使用！
+```
+
+**如果看到此输出，说明配置成功！**
+
+### 📋 完整使用流程
+
+#### 第一步：放置待处理文件
+将需要整理的文件拖放到自动生成的 `inbox/` 文件夹中：
+```
+inbox/
+├── 我的工作报告.docx
+├── 投资理财计划.xlsx  
+├── 技术学习笔记.md
+└── 项目管理手册.pdf
+```
+
+#### 第二步：运行处理命令
+```bash
+# 交互式处理（推荐新用户）
+python main.py
+
+# 自动确认处理（熟练用户）
+python main.py -y
+
+# 开启监控模式（自动处理新文件）
+python main.py --watch
+```
+
+#### 第三步：查看处理结果
+处理完成后，文件会被智能分类到 `knowledge_base/` 文件夹：
+```
+knowledge_base/
+├── 数据分析/
+│   └── 业务分析/
+│       └── 我的工作报告_20250530_v1.0.docx
+├── 个人财务/
+│   └── 投资理财/
+│       └── 投资理财计划_20250530_v1.0.xlsx
+├── 技术开发/
+│   └── 开发实践/
+│       └── 技术学习笔记_20250530_v1.0.md
+└── 项目管理/
+    └── 项目规划/
+        └── 项目管理手册_20250530_v1.0.pdf
+```
+
+#### 第四步：原文件备份
+处理后的原文件会移动到 `processed/` 文件夹作为备份。
 
 ## 🌟 智能二级分类示例
 
@@ -382,14 +562,12 @@ knowledge_base/
 - 项目管理：+46个关键词（敏捷开发、需求管理、团队协作等）
 - 产品设计：+36个关键词（UX设计、产品需求、界面设计等）
 - 营销推广：+46个关键词（品牌策略、数字营销、用户增长等）
-- ... 等等
 
 **个人生活类增强**：
 - 个人财务：+41个关键词（投资理财、资产配置、保险规划等）
 - 健康医疗：+42个关键词（健身运动、营养饮食、医疗记录等）
 - 旅行出行：+44个关键词（旅行攻略、游记分享、行程规划等）
 - 创作写作：+42个关键词（文学创作、博客写作、创作素材等）
-- ... 等等
 
 ### v2.1.0 (2025-05-28) - 智能二级分类系统
 - **108个二级分类**：为所有27个主分类配置了专业的二级分类
