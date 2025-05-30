@@ -104,6 +104,20 @@ classification_rules:
       - 代码审查
       - 技术规范
       - 架构设计
+    # 二级文件夹配置
+    subfolders:
+      智能分析:
+        keywords: [AI, 人工智能, 机器学习, 深度学习, 智能分析, 算法]
+        description: "AI和机器学习相关技术文档"
+      系统架构:
+        keywords: [架构, 系统设计, 微服务, API, 框架]
+        description: "系统架构和设计方案"
+      开发实践:
+        keywords: [开发, 编程, 代码, 实现, 项目]
+        description: "开发实践和项目经验"
+      技术规范:
+        keywords: [规范, 标准, 文档, 手册, 指南]
+        description: "技术规范和开发标准"
     priority: 1
     file_types: [".py", ".js", ".java", ".cpp", ".md", ".pdf", ".docx"]
     
@@ -149,6 +163,20 @@ classification_rules:
       - 安全管理
       - 网络配置
       - 服务器管理
+    # 二级文件夹配置
+    subfolders:
+      系统部署:
+        keywords: [部署, 发布, 上线, CI/CD, 自动化, 部署方案]
+        description: "系统部署和发布管理"
+      监控告警:
+        keywords: [监控, 告警, 日志, 性能, 指标, 健康检查]
+        description: "系统监控和告警管理"
+      安全运维:
+        keywords: [安全, 防护, 漏洞, 权限, 防火墙, 安全策略]
+        description: "安全运维和防护措施"
+      容器化:
+        keywords: [Docker, 容器, Kubernetes, 镜像, 编排]
+        description: "容器化技术和管理"
     priority: 2
     
   项目管理:
@@ -192,6 +220,20 @@ classification_rules:
       - 项目章程
       - 风险管理
       - 项目总结
+    # 二级文件夹配置
+    subfolders:
+      项目规划:
+        keywords: [规划, 计划, 策略, 方案, 章程]
+        description: "项目规划和策略文档"
+      需求管理:
+        keywords: [需求, 分析, 用户, 业务需求, 功能]
+        description: "需求分析和管理文档"
+      进度跟踪:
+        keywords: [进度, 跟踪, 里程碑, 时间, 计划]
+        description: "项目进度和里程碑跟踪"
+      团队协作:
+        keywords: [团队, 协作, 沟通, 会议, 讨论]
+        description: "团队协作和沟通记录"
     priority: 3
     
   业务流程:
@@ -225,6 +267,20 @@ classification_rules:
       - 标准制度
       - 质量管理
       - 合规文档
+    # 二级文件夹配置
+    subfolders:
+      流程设计:
+        keywords: [流程, 设计, 工作流, 业务流程, 流程图]
+        description: "业务流程设计和优化"
+      操作规范:
+        keywords: [操作, 规范, 手册, SOP, 标准, 指南]
+        description: "操作规范和标准程序"
+      制度管理:
+        keywords: [制度, 管理, 政策, 规定, 条例]
+        description: "企业制度和管理规定"
+      质量体系:
+        keywords: [质量, ISO, 体系, 认证, 审核]
+        description: "质量管理体系文档"
     priority: 4
     
   人力资源:
@@ -260,6 +316,20 @@ classification_rules:
       - 招聘管理
       - 薪酬福利
       - 员工手册
+    # 二级文件夹配置
+    subfolders:
+      招聘管理:
+        keywords: [招聘, 面试, 候选人, 岗位, 简历, JD]
+        description: "招聘流程和候选人管理"
+      培训发展:
+        keywords: [培训, 学习, 发展, 课程, 技能, 成长]
+        description: "员工培训和职业发展"
+      绩效考核:
+        keywords: [绩效, 考核, 评估, KPI, OKR, 目标]
+        description: "绩效管理和考核评估"
+      薪酬福利:
+        keywords: [薪酬, 工资, 福利, 奖金, 激励, 待遇]
+        description: "薪酬体系和福利管理"
     priority: 5
     
   财务管理:
@@ -294,6 +364,20 @@ classification_rules:
       - 税务文档
       - 审计报告
       - 成本分析
+    # 二级文件夹配置
+    subfolders:
+      财务报表:
+        keywords: [报表, 财报, 损益, 资产负债, 现金流]
+        description: "财务报表和会计核算"
+      预算控制:
+        keywords: [预算, 预算控制, 成本, 费用, 支出]
+        description: "预算管理和成本控制"
+      投资分析:
+        keywords: [投资, 理财, 资本, 收益, 分析]
+        description: "投资决策和财务分析"
+      税务合规:
+        keywords: [税务, 税收, 合规, 申报, 筹划]
+        description: "税务管理和合规申报"
     priority: 6
     
   会议沟通:
@@ -327,6 +411,20 @@ classification_rules:
       - 决策记录
       - 讨论总结
       - 协调文档
+    # 二级文件夹配置
+    subfolders:
+      会议记录:
+        keywords: [会议, 纪要, 议程, 决议, 会议记录]
+        description: "会议纪要和决议记录"
+      工作汇报:
+        keywords: [汇报, 报告, 总结, 进展, 工作]
+        description: "工作汇报和进展总结"
+      沟通协调:
+        keywords: [沟通, 协调, 交流, 讨论, 反馈]
+        description: "团队沟通和协调记录"
+      决策记录:
+        keywords: [决策, 决定, 方案, 选择, 批准]
+        description: "重要决策和方案记录"
     priority: 7
     
   法律合规:
@@ -361,6 +459,20 @@ classification_rules:
       - 知识产权
       - 法律意见
       - 合规检查
+    # 二级文件夹配置
+    subfolders:
+      合同管理:
+        keywords: [合同, 协议, 条款, 签署, 续签]
+        description: "合同协议管理和维护"
+      知识产权:
+        keywords: [专利, 商标, 版权, 知识产权, 申请]
+        description: "知识产权申请和保护"
+      合规监管:
+        keywords: [合规, 监管, 法规, 政策, 检查]
+        description: "合规管理和监管要求"
+      法律咨询:
+        keywords: [法律, 律师, 咨询, 意见, 建议]
+        description: "法律咨询和专业意见"
     priority: 8
     
   产品设计:
@@ -398,6 +510,20 @@ classification_rules:
       - 产品规划
       - 设计规范
       - 原型设计
+    # 二级文件夹配置
+    subfolders:
+      产品需求:
+        keywords: [PRD, 需求, 产品需求, 功能, 规格]
+        description: "产品需求文档和规格说明"
+      用户体验:
+        keywords: [UX, 用户体验, 交互, 流程, 用户]
+        description: "用户体验设计和交互流程"
+      界面设计:
+        keywords: [UI, 界面, 视觉, 设计, 原型]
+        description: "UI界面设计和视觉规范"
+      设计规范:
+        keywords: [规范, 标准, 风格, 品牌, 指南]
+        description: "设计规范和品牌标准"
     priority: 9
     
   营销推广:
@@ -434,6 +560,20 @@ classification_rules:
       - 活动策划
       - 用户运营
       - 增长策略
+    # 二级文件夹配置
+    subfolders:
+      品牌策略:
+        keywords: [品牌, 策略, 定位, 形象, 传播]
+        description: "品牌策略和形象定位"
+      市场推广:
+        keywords: [推广, 宣传, 广告, 投放, 渠道]
+        description: "市场推广和广告投放"
+      活动策划:
+        keywords: [活动, 策划, 方案, 执行, 事件]
+        description: "营销活动策划和执行"
+      数据分析:
+        keywords: [数据, 分析, ROI, KPI, 效果, 转化]
+        description: "营销数据分析和效果评估"
     priority: 10
     
   数据分析:
@@ -467,6 +607,20 @@ classification_rules:
       - 数据可视化
       - 分析报告
       - 数据洞察
+    # 二级文件夹配置
+    subfolders:
+      业务分析:
+        keywords: [业务, 分析, 运营, 指标, KPI, 业绩]
+        description: "业务数据分析和运营指标"
+      数据报表:
+        keywords: [报表, 报告, 统计, 图表, 可视化]
+        description: "数据报表和可视化图表"
+      预测建模:
+        keywords: [预测, 模型, 算法, 机器学习, 趋势]
+        description: "预测模型和数据建模"
+      市场研究:
+        keywords: [市场, 研究, 调研, 用户, 竞品]
+        description: "市场研究和用户分析"
     priority: 11
     
   质量管理:
@@ -500,6 +654,20 @@ classification_rules:
       - 测试报告
       - 质量审核
       - 改进计划
+    # 二级文件夹配置
+    subfolders:
+      测试管理:
+        keywords: [测试, 测试用例, 测试计划, 验收, 测试报告]
+        description: "软件测试和质量验收"
+      质量标准:
+        keywords: [标准, 规范, ISO, 认证, 体系]
+        description: "质量标准和管理体系"
+      缺陷管理:
+        keywords: [缺陷, Bug, 问题, 修复, 跟踪]
+        description: "缺陷跟踪和问题管理"
+      持续改进:
+        keywords: [改进, 优化, 提升, 流程, 方法]
+        description: "质量持续改进和优化"
     priority: 12
     
   供应链管理:
@@ -533,6 +701,20 @@ classification_rules:
       - 采购合同
       - 供应商评估
       - 库存管理
+    # 二级文件夹配置
+    subfolders:
+      采购管理:
+        keywords: [采购, 购买, 订单, 招标, 议价]
+        description: "采购流程和订单管理"
+      供应商管理:
+        keywords: [供应商, 供方, 合作伙伴, 评估, 审核]
+        description: "供应商选择和关系管理"
+      物流配送:
+        keywords: [物流, 配送, 运输, 仓储, 发货]
+        description: "物流配送和仓储管理"
+      库存控制:
+        keywords: [库存, 盘点, 入库, 出库, 周转]
+        description: "库存管理和控制系统"
     priority: 13
     
   客户服务:
@@ -566,6 +748,20 @@ classification_rules:
       - 服务流程
       - 客户反馈
       - 知识库
+    # 二级文件夹配置
+    subfolders:
+      服务流程:
+        keywords: [服务, 流程, 标准, 规范, 程序]
+        description: "客户服务流程和标准"
+      客户管理:
+        keywords: [客户, CRM, 关系, 档案, 信息]
+        description: "客户关系和信息管理"
+      投诉处理:
+        keywords: [投诉, 抱怨, 问题, 处理, 解决]
+        description: "客户投诉处理和问题解决"
+      知识库:
+        keywords: [知识库, FAQ, 文档, 手册, 指南]
+        description: "服务知识库和常见问题"
     priority: 14
     
   学习成长:
@@ -600,6 +796,20 @@ classification_rules:
       - 培训资料
       - 知识分享
       - 技能认证
+    # 二级文件夹配置
+    subfolders:
+      学习笔记:
+        keywords: [笔记, 学习, 读书, 心得, 总结]
+        description: "学习笔记和读书心得"
+      培训资料:
+        keywords: [培训, 课程, 教程, 资料, 材料]
+        description: "培训课程和学习资料"
+      技能认证:
+        keywords: [认证, 证书, 考试, 技能, 资格]
+        description: "技能认证和考试相关"
+      知识分享:
+        keywords: [分享, 经验, 知识, 总结, 心得]
+        description: "知识分享和经验总结"
     priority: 15
   
   # ============= 个人生活类别 (12类) =============
@@ -638,6 +848,20 @@ classification_rules:
       - 保险文档
       - 消费记录
       - 财务规划
+    # 二级文件夹配置
+    subfolders:
+      投资理财:
+        keywords: [投资, 理财, 股票, 基金, 债券, 收益]
+        description: "投资理财和资产配置"
+      记账管理:
+        keywords: [记账, 收支, 消费, 预算, 账单]
+        description: "个人记账和消费管理"
+      保险规划:
+        keywords: [保险, 保障, 理赔, 保单, 风险]
+        description: "保险规划和风险管理"
+      财务规划:
+        keywords: [规划, 目标, 储蓄, 资产, 财务]
+        description: "个人财务规划和目标"
     priority: 20
     
   生活记录:
@@ -673,6 +897,20 @@ classification_rules:
       - 生活感悟
       - 回忆录
       - 人生思考
+    # 二级文件夹配置
+    subfolders:
+      日记随笔:
+        keywords: [日记, 随笔, 记录, 生活, 点滴]
+        description: "日常生活记录和随笔"
+      心情感悟:
+        keywords: [心情, 感悟, 思考, 感想, 情感]
+        description: "心情记录和人生感悟"
+      回忆录:
+        keywords: [回忆, 回顾, 过去, 经历, 故事]
+        description: "回忆录和人生故事"
+      人生思考:
+        keywords: [思考, 反思, 哲学, 价值观, 人生]
+        description: "人生思考和价值观念"
     priority: 21
     
   健康医疗:
@@ -708,6 +946,20 @@ classification_rules:
       - 营养健康
       - 运动记录
       - 健康管理
+    # 二级文件夹配置
+    subfolders:
+      医疗记录:
+        keywords: [医疗, 体检, 诊断, 治疗, 病历]
+        description: "医疗记录和健康档案"
+      健身运动:
+        keywords: [健身, 运动, 锻炼, 训练, 瑜伽]
+        description: "健身运动和体能训练"
+      营养饮食:
+        keywords: [营养, 饮食, 食谱, 膳食, 健康]
+        description: "营养饮食和健康管理"
+      健康计划:
+        keywords: [计划, 目标, 管理, 监控, 改善]
+        description: "健康管理计划和目标"
     priority: 22
     
   旅行出行:
@@ -744,6 +996,20 @@ classification_rules:
       - 旅行规划
       - 景点介绍
       - 旅游总结
+    # 二级文件夹配置
+    subfolders:
+      旅行计划:
+        keywords: [计划, 行程, 攻略, 准备, 预订]
+        description: "旅行计划和行程安排"
+      游记分享:
+        keywords: [游记, 分享, 体验, 见闻, 照片]
+        description: "旅行游记和体验分享"
+      出行指南:
+        keywords: [指南, 攻略, 景点, 美食, 交通]
+        description: "旅游攻略和出行指南"
+      旅行预算:
+        keywords: [预算, 费用, 开支, 消费, 账单]
+        description: "旅行预算和费用管理"
     priority: 23
     
   兴趣爱好:
@@ -779,6 +1045,20 @@ classification_rules:
       - 个人创作
       - 爱好分享
       - 技能学习
+    # 二级文件夹配置
+    subfolders:
+      创作作品:
+        keywords: [创作, 作品, 绘画, 写作, 手工]
+        description: "个人创作和艺术作品"
+      收藏展示:
+        keywords: [收藏, 展示, 藏品, 鉴赏, 文玩]
+        description: "收藏品展示和鉴赏"
+      娱乐休闲:
+        keywords: [娱乐, 休闲, 游戏, 电影, 音乐]
+        description: "娱乐休闲和消遣活动"
+      技能学习:
+        keywords: [技能, 学习, 教程, 练习, 提升]
+        description: "兴趣技能学习和提升"
     priority: 24
     
   家庭生活:
@@ -813,6 +1093,20 @@ classification_rules:
       - 亲子活动
       - 家庭计划
       - 居家生活
+    # 二级文件夹配置
+    subfolders:
+      育儿教育:
+        keywords: [育儿, 教育, 亲子, 成长, 学习]
+        description: "育儿教育和亲子成长"
+      家居装修:
+        keywords: [装修, 家居, 设计, 布置, 改造]
+        description: "家居装修和设计布置"
+      家庭活动:
+        keywords: [活动, 聚会, 节日, 庆祝, 纪念]
+        description: "家庭活动和节日庆祝"
+      家务管理:
+        keywords: [家务, 管理, 计划, 安排, 生活]
+        description: "家务管理和生活安排"
     priority: 25
     
   求职职业:
@@ -821,6 +1115,9 @@ classification_rules:
       - 求职
       - 简历
       - 面试
+      - 面试反馈
+      - 面试记录
+      - 面试评估
       - 职业规划
       - 工作
       - 职场
@@ -833,12 +1130,21 @@ classification_rules:
       - 经验
       - 证书
       - 推荐信
+      - 候选人
+      - 技术面试
+      - 复试
+      - 终面
+      - 面试官
+      - 面试流程
+      - 面试结果
+      - HR面试
       - job
       - resume
       - interview
       - career
       - workplace
       - salary
+      - candidate
     target_patterns:
       - 求职职业
       - 简历面试
@@ -847,7 +1153,21 @@ classification_rules:
       - 求职记录
       - 面试准备
       - 职业发展
-    priority: 26
+    # 二级文件夹配置
+    subfolders:
+      简历管理:
+        keywords: [简历, 履历, CV, resume, 个人简历]
+        description: "个人简历和履历管理"
+      面试记录:
+        keywords: [面试, 面谈, 复试, 终面, 反馈, 面试反馈, 面试记录, 候选人, 面试官, 面试结果]
+        description: "面试过程和反馈记录"
+      职业规划:
+        keywords: [职业规划, 发展, 规划, 目标, 成长]
+        description: "职业发展规划和目标设定"
+      求职准备:
+        keywords: [准备, 技能, 学习, 认证, 培训]
+        description: "求职技能准备和能力提升"
+    priority: 5
     
   教育培训:
     description: "教育课程、培训资料、考试认证等教育相关文档"
@@ -882,6 +1202,20 @@ classification_rules:
       - 学历教育
       - 技能培训
       - 认证考试
+    # 二级文件夹配置
+    subfolders:
+      学历教育:
+        keywords: [学历, 学位, 学校, 毕业, 申请]
+        description: "学历教育和学位申请"
+      职业培训:
+        keywords: [培训, 职业, 技能, 课程, 资料]
+        description: "职业技能培训和课程"
+      考试认证:
+        keywords: [考试, 认证, 证书, 资格, 测试]
+        description: "考试认证和资格证书"
+      学习资源:
+        keywords: [资源, 资料, 教材, 参考, 学习]
+        description: "学习资源和教学材料"
     priority: 27
     
   创作写作:
@@ -917,6 +1251,20 @@ classification_rules:
       - 写作素材
       - 作品集
       - 创作心得
+    # 二级文件夹配置
+    subfolders:
+      文学创作:
+        keywords: [文学, 小说, 散文, 诗歌, 剧本]
+        description: "文学创作和作品集"
+      博客文章:
+        keywords: [博客, 文章, 分享, 发表, 网络]
+        description: "博客文章和网络写作"
+      创作素材:
+        keywords: [素材, 灵感, 想法, 资料, 参考]
+        description: "创作素材和灵感记录"
+      写作心得:
+        keywords: [心得, 经验, 技巧, 总结, 反思]
+        description: "写作心得和经验总结"
     priority: 28
     
   社交网络:
@@ -952,6 +1300,20 @@ classification_rules:
       - 社交记录
       - 网络分享
       - 社区参与
+    # 二级文件夹配置
+    subfolders:
+      社交媒体:
+        keywords: [社交, 媒体, 朋友圈, 微博, 分享]
+        description: "社交媒体和平台管理"
+      在线社区:
+        keywords: [社区, 论坛, 群组, 讨论, 参与]
+        description: "在线社区和论坛参与"
+      网络互动:
+        keywords: [互动, 交流, 评论, 回复, 沟通]
+        description: "网络互动和交流记录"
+      数字关系:
+        keywords: [关系, 朋友, 联系, 网友, 圈子]
+        description: "数字化人际关系管理"
     priority: 29
     
   数字生活:
@@ -988,6 +1350,20 @@ classification_rules:
       - 账号管理
       - 数字工具
       - 网络服务
+    # 二级文件夹配置
+    subfolders:
+      账号管理:
+        keywords: [账号, 密码, 登录, 注册, 安全]
+        description: "账号密码和安全管理"
+      云服务:
+        keywords: [云服务, 云盘, 备份, 同步, 存储]
+        description: "云服务和数据备份"
+      数字工具:
+        keywords: [工具, 软件, 应用, 效率, 自动化]
+        description: "数字工具和效率软件"
+      在线订阅:
+        keywords: [订阅, 会员, 付费, 服务, 续费]
+        description: "在线订阅和会员服务"
     priority: 30
     
   环保可持续:
@@ -1023,6 +1399,20 @@ classification_rules:
       - 节能减排
       - 环保计划
       - 生态保护
+    # 二级文件夹配置
+    subfolders:
+      绿色生活:
+        keywords: [绿色, 生活, 环保, 低碳, 节约]
+        description: "绿色生活方式和实践"
+      节能减排:
+        keywords: [节能, 减排, 能源, 效率, 优化]
+        description: "节能减排和能源管理"
+      环保行动:
+        keywords: [行动, 活动, 参与, 志愿, 倡议]
+        description: "环保行动和公益参与"
+      可持续发展:
+        keywords: [可持续, 发展, 规划, 目标, 未来]
+        description: "可持续发展理念和规划"
     priority: 31
 
 # ============= 回退文件夹配置 =============
