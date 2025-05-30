@@ -154,9 +154,11 @@ def check_environment():
     # 检查文件夹
     inbox_dir = Path("inbox")
     kb_dir = Path("knowledge_base")
+    processed_dir = Path("processed")
     
     inbox_dir.mkdir(exist_ok=True)
     kb_dir.mkdir(exist_ok=True)
+    processed_dir.mkdir(exist_ok=True)
     
     click.echo(f"{Fore.GREEN}✅ 文件夹结构正常{Style.RESET_ALL}")
     
